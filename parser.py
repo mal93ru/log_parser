@@ -64,6 +64,30 @@ def reader(filename):
     for i in biggest_request:
         biggest_request_list.append(i)
 
+    json_file = {
+        "Top 10 IP": top10ip,
+        "Methods": [
+            {
+                "GET": method_count["GET"],
+                "POST": method_count["POST"],
+                "PUT": method_count["PUT"],
+                "DELETE": method_count["DELETE"],
+                "HEAD": method_count["HEAD"]
+            }
+        ],
+        "Top 10 error client": top10error_client,
+        "Top 10 error server": top10error_server,
+        "Total requests": requests,
+        "Top 10 longest requests": biggest_request_list
+    }
+
+    with open("result.json", "w", encoding="utf-8") as file:
+        try:
+            json_schema = json.dumps(json_file, indent=4)
+            file.write(json_schema)
+        except OSError:
+            print("Load json file failed")
+
 
 if __name__ == '__main__':
     reader(args.file)
